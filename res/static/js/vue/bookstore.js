@@ -24,32 +24,7 @@ let app = new Vue({
             carousel.render(option);
         });
 
-        layui.use(['mm','laypage','jquery'],function(){
-                var laypage = layui.laypage
-                let _this = this
-                laypage.render({
-                    elem: 'demo0',
-                    count: app.books.length,
-                    limit: 9,
-                    jump: function (obj,first) {
-                        app.getCurrPageBooks(obj.curr)
-                    }
-                });
 
-                $('.sort a').on('click',function(){
-                    $(this).addClass('active').siblings().removeClass('active');
-                })
-                $('.list-box dt').on('click',function(){
-                    if($(this).attr('off')){
-                        $(this).removeClass('active').siblings('dd').show()
-                        $(this).attr('off','')
-                    }else{
-                        $(this).addClass('active').siblings('dd').hide()
-                        $(this).attr('off',true)
-                    }
-                })
-
-            });
     },
     methods : {
 
@@ -96,7 +71,32 @@ let app = new Vue({
                     _this.books.push(json[1])
                     _this.books.push(json[1])
                     _this.books.push(json[1])
+                    layui.use(['mm','laypage','jquery'],function(){
+                        var laypage = layui.laypage
+                        let _this = this
+                        laypage.render({
+                            elem: 'demo0',
+                            count: app.books.length,
+                            limit: 9,
+                            jump: function (obj,first) {
+                                app.getCurrPageBooks(obj.curr)
+                            }
+                        });
 
+                        $('.sort a').on('click',function(){
+                            $(this).addClass('active').siblings().removeClass('active');
+                        })
+                        $('.list-box dt').on('click',function(){
+                            if($(this).attr('off')){
+                                $(this).removeClass('active').siblings('dd').show()
+                                $(this).attr('off','')
+                            }else{
+                                $(this).addClass('active').siblings('dd').hide()
+                                $(this).attr('off',true)
+                            }
+                        })
+
+                    });
                 }
             });
         },

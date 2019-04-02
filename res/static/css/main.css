@@ -308,7 +308,7 @@ i{font-style: normal;}
 
 
 /*shopcart-content*/
-.shopcart-content .banner-bg{height: 180px; background: url(../img/buy_banner.jpg) no-repeat; margin:50px auto; padding-left: 68px; box-sizing: border-box; color: #fff}
+.shopcart-content .banner-bg{height: 180px; background: url(../img/buy_banner.png) no-repeat; margin:50px auto; padding-left: 68px; box-sizing: border-box; color: #fff}
 .shopcart-content .banner-bg h3{font-size: 36px; padding:40px 0 20px 0;}
 .shopcart-content .banner-bg p{font-size: 20px; }
 .shopcart-content .cart{padding-bottom: 180px;}
