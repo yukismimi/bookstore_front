@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
@@ -62,34 +62,75 @@
         </div>
       </div>
     </div>
-    <div class="login-bg">
+    <div class="login-bg" id="app">
       <div class="login-cont w1200">
-        <div class="form-box" id="app">
+
+        <template v-if="isLogin">
+        <div  class="form-box-login">
           <form class="layui-form" action="">
             <legend>用户登录</legend>
             <div class="layui-form-item">
               <div class="layui-inline iphone">
                 <div class="layui-input-inline">
                   <i class="layui-icon layui-icon-user iphone-icon"></i>
-                  <input v-model="username" type="text" name="username" id="username" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                  <input v-model="username" key="username" type="text" name="username" id="username" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
                 </div>
               </div>
               <div class="layui-inline iphone">
                 <div class="layui-input-inline">
                   <i class="layui-icon layui-icon-password iphone-icon"></i>
-                  <input v-model="password" id="pnum" type="password" name="pnum" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                  <input v-model="password" key="password" id="pnum" type="password" name="pnum" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
                 </div>
               </div>
             </div>
             <div class="layui-form-item login-btn">
               <div class="layui-input-block">
-                <button type="button" class="layui-btn" lay-submit=""  v-on:click="login">登录</button>
+                <button type="button" class="layui-btn" @click="login" >登录</button>
               </div>
             </div>
+            <a style="float:right" v-on:click="toggle">用户注册</a>
           </form>
         </div>
+        </template>
+
+        <template v-else>
+        <div  class="form-box-regist">
+          <form  class="layui-form" action="">
+            <legend>用户注册</legend>
+            <div class="layui-form-item">
+              <div class="layui-inline iphone">
+                <div class="layui-input-inline">
+                  <i class="layui-icon layui-icon-user iphone-icon"></i>
+                  <input v-model="usernameRegist" key="usernameRegist" type="text" name="username" id="usernameRegist" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-inline iphone">
+                <div class="layui-input-inline">
+                  <i class="layui-icon layui-icon-password iphone-icon"></i>
+                  <input v-model="passwordRegist" key="passwordRegist" id="pnum2" type="password" name="pnum" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-inline iphone">
+                <div class="layui-input-inline">
+                  <i class="layui-icon layui-icon-password iphone-icon"></i>
+                  <input v-model="rePasswordRegist" key="rePasswordRegist" id="pnum3" type="password" name="pnum" lay-verify="required" placeholder="请确认密码" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+            </div>
+            <div class="layui-form-item login-btn">
+              <div class="layui-input-block">
+                <button type="button" class="layui-btn" @click="regist" >注册</button>
+              </div>
+            </div>
+            <a style="float:right" v-on:click="toggle">用户登录</a>
+          </form>
+        </div>
+        </template>
+
       </div>
     </div>
+
+
   </div>
 
   <div class="footer">

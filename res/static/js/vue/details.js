@@ -23,7 +23,6 @@ let app = new Vue({
         addToShoppingCart: function(){
             let amount = $("#amount").val();
             let uid = header.cookies.get("uid");
-            console.log("???")
             $.ajax({
                 type: 'post',
                 url: this.serverUrl + '/shoppingCart',
@@ -36,12 +35,14 @@ let app = new Vue({
                 }),
                 success: function (data) {
                     console.log("success");
-                    console.log(data)
+                    console.log(data);
+                    header.getShoppingCart(uid);
                 },
                 error:function (data) {
                     console.log(data)
                 }
             });
+
         }
     }
 
