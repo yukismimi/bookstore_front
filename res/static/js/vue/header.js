@@ -36,6 +36,7 @@ let header = new Vue({
                 url: this.serverUrl + '/shoppingCart?userId=' + uid,
                 dataType: 'json',
                 success: function (data) {
+                    _this.shoppingCart = new Array();
                     for(let i in data){
                         _this.shoppingCart.push(data[i])
                     }

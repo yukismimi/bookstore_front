@@ -26,6 +26,11 @@ let app = new Vue({
 
 
     },
+    computed:{
+        bookCount: function () {
+            return this.books.length;
+        }
+    },
     methods : {
 
         getBookList : function () {
@@ -38,36 +43,12 @@ let app = new Vue({
                     _this.books.push(json[4])
                     _this.books.push(json[4])
                     _this.books.push(json[4])
-                    _this.books.push(json[4])
-                    _this.books.push(json[4])
-                    _this.books.push(json[4])
-                    _this.books.push(json[4])
-                    _this.books.push(json[4])
-                    _this.books.push(json[4])
-                    _this.books.push(json[3])
-                    _this.books.push(json[3])
-                    _this.books.push(json[3])
-                    _this.books.push(json[3])
-                    _this.books.push(json[3])
-                    _this.books.push(json[3])
                     _this.books.push(json[3])
                     _this.books.push(json[3])
                     _this.books.push(json[3])
                     _this.books.push(json[2])
                     _this.books.push(json[2])
                     _this.books.push(json[2])
-                    _this.books.push(json[2])
-                    _this.books.push(json[2])
-                    _this.books.push(json[2])
-                    _this.books.push(json[2])
-                    _this.books.push(json[2])
-                    _this.books.push(json[2])
-                    _this.books.push(json[1])
-                    _this.books.push(json[1])
-                    _this.books.push(json[1])
-                    _this.books.push(json[1])
-                    _this.books.push(json[1])
-                    _this.books.push(json[1])
                     _this.books.push(json[1])
                     _this.books.push(json[1])
                     _this.books.push(json[1])
@@ -104,6 +85,11 @@ let app = new Vue({
             start = (page-1)*9;
             end = page*9
             this.pages = this.books.slice(start,end)
+        },
+        bookName: function (index) {
+            console.log(index)
+            console.log(this.pages[index])
+            return this.pages[index].bookName.length <= 20 ? this.pages[index].bookName : this.pages[index].bookName.substring(0,15) + '...';
         }
     }
 });

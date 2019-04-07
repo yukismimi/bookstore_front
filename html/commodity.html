@@ -49,7 +49,7 @@
   </div>
 
 
-  <div class="content content-nav-base commodity-content">
+  <div class="content content-nav-base commodity-content"  id="test1">
     <div class="main-nav">
       <div class="inner-cont0">
         <div class="inner-cont1 w1200">
@@ -110,15 +110,15 @@
               <a href="javascript:;" event = 'collection'>收藏</a>
             </div>
             <div class="prod-number">
-              <span>200个</span>
+              <span>{{bookCount}}个商品</span>
             </div>
-            <div class="cont-list layui-clear" id="test1">
-              <div v-for="book in pages" class="item" >
+            <div class="cont-list layui-clear">
+              <div v-for="(book,index) in pages" class="item" >
                 <div class="img">
                   <a :href="'details.html?id='+book.id"><img src="../res/static/img/rohan-kotowaru.png"></a>
                 </div>
                 <div class="text">
-                  <p class="title">{{book.bookName}}</p>
+                  <p class="title">{{bookName(index)}}</p>
                   <p class="price">
                     <span class="pri">￥{{book.price}}</span>
                     <span class="nub">1266付款</span>

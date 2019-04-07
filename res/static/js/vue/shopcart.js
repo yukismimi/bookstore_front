@@ -1,7 +1,7 @@
 let app = new Vue({
     el: '#app',
     data: {
-        serverUrl: 'http://localhost:8080',
+            serverUrl: 'http://localhost:8080',
         shoppingCart: [],
         cookies: new Map(),
         checkbox: []
@@ -49,19 +49,87 @@ let app = new Vue({
             });
         },
         add: function (index) {
-            this.shoppingCart[index].amount++;
+            $.ajax({
+                type: 'put',
+                url: this.serverUrl + '/shoppingCart',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                data: {
+                    "userId": this.shoppingCart[index].userId,
+                    "bookId": this.shoppingCart[index].bookId,
+                    "amount": ++this.shoppingCart[index].amount
+                },
+                success: function (data) {
+                    console.log("success");
+                    console.log(data)
+                },
+                error:function (data) {
+                    console.log(data)
+                }
+            });
         },
         minus: function (index) {
             if(this.shoppingCart[index].amount > 1)
-                this.shoppingCart[index].amount--;
+                $.ajax({
+                    type: 'put',
+                    url: this.serverUrl + '/shoppingCart',
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    data: {
+                        "userId": this.shoppingCart[index].userId,
+                        "bookId": this.shoppingCart[index].bookId,
+                        "amount": --this.shoppingCart[index].amount
+                    },
+                    success: function (data) {
+                        console.log("success");
+                        console.log(data)
+                    },
+                    error:function (data) {
+                        console.log(data)
+                    }
+                });
         },
         remove: function (index) {
+            $.ajax({
+                type: 'delete',
+                url: this.serverUrl + '/shoppingCart',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                data: {
+                    "userId": this.shoppingCart[index].userId,
+                    "bookId": this.shoppingCart[index].bookId,
+                },
+                success: function (data) {
+                    console.log("success");
+                    console.log(data)
+                },
+                error:function (data) {
+                    console.log(data)
+                }
+            });
             let bookId = this.shoppingCart[index].bookId;
             this.shoppingCart.splice(index,1);
             let _index = this.checkbox.findIndex(i => i.bookId == bookId);
             this.checkbox.splice(_index,1);
         },
         removeSelected: function () {
+            this.shoppingCart.filter(i => this.checkbox.indexOf(i.bookId) != -1)
+                .forEach(function (obj) {
+                    $.ajax({
+                        type: 'delete',
+                        url: app.serverUrl + '/shoppingCart',
+                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                        data: {
+                            "userId": obj.userId,
+                            "bookId": obj.bookId,
+                        },
+                        success: function (data) {
+                            console.log("success");
+                            console.log(data)
+                        },
+                        error:function (data) {
+                            console.log(data)
+                        }
+                    });
+                });
+
             this.shoppingCart = this.shoppingCart
                 .filter(i => this.checkbox.indexOf(i.bookId) == -1);
         },
