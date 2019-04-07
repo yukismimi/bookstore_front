@@ -46,8 +46,10 @@ let app = new Vue({
             return false;
         },
         regist: function (event) {
-            if(this.passwordRegist != this.rePasswordRegist)
+            if(this.passwordRegist != this.rePasswordRegist) {
+                layer.msg("两次密码输入不一致，请重新输入");
                 return false;
+            }
             console.log("regist methods")
             $.ajax({
                 type: 'post',
@@ -60,8 +62,10 @@ let app = new Vue({
                 }),
                 success: function (json) {
                     if(json.code == 1) {
-                        console.log(json)
-                        //window.location.href = "login.html";
+                        layer.msg("注册成功，3秒后返回登陆页面");
+                        setTimeout(function () {
+                            window.location.href = "login.html";
+                        },3*1000);
                     }
                     else
                         alert("regist failed")

@@ -18,8 +18,9 @@
       <a href="#">首页</a>
     </p>
     <div class="sn-quick-menu">
-      <div v-if="cookies.has('username')" class="login">欢迎您，{{cookies.get("username")}}</div>
+      <div v-if="cookies.has('username')" class="login">{{cookies.get("username")}}</div>
       <div v-else class="login"><a href="login.html">登录</a></div>
+      <div v-if="cookies.has('username')" class="login"><a href="transaction.html">我的订单</a></div>
       <div v-if="cookies.has('username')" class="sp-cart"><a href="shopcart.html">购物车</a><span>{{countInShoppingCart}}</span></div>
     </div>
   </div>
@@ -56,7 +57,7 @@
           <div class="inner-cont2">
             <a href="commodity.html" class="active">所有商品</a>
             <a href="buytoday.html">今日团购</a>
-            <a href="information.html">母婴资讯</a>
+            <a href="information.html">书籍资讯</a>
             <a href="about.html">关于我们</a>
           </div>
         </div>
@@ -153,7 +154,7 @@
           <span class="batch-dele-btn" @click="removeSelected">批量删除</span>
         </div>
         <div class="th Settlement">
-          <button class="layui-btn">结算</button>
+          <button class="layui-btn" @click="pay">结算</button>
         </div>
         <div class="th total">
           <p>应付：<span class="pieces-total">{{total}}</span></p>
@@ -164,8 +165,10 @@
 
 <script type="text/javascript">
   layui.config({
-    base: '../res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
-  });
+    base: '../res/static/js/util' //你存放新模块的目录，注意，不是layui的模块目录
+  }).use(['jquery','form'],function(){
+    var $ = layui.$,form = layui.form;
+  })
 </script>
 <script src="../res/static/js/jquery/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>

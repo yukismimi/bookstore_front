@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+  <script type="text/javascript" src="../res/layui/layui.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<body>
+
+<div class="site-nav-bg" id="nav">
+  <div class="site-nav w1200">
+    <p class="sn-back-home">
+      <i class="layui-icon layui-icon-home"></i>
+      <a href="#">首页</a>
+    </p>
+    <div class="sn-quick-menu">
+      <div v-if="cookies.has('username')" class="login">{{cookies.get("username")}}</div>
+      <div v-else class="login"><a href="login.html">登录</a></div>
+      <div v-if="cookies.has('username')" class="login"><a href="transaction.html">我的订单</a></div>
+      <div v-if="cookies.has('username')" class="sp-cart"><a href="shopcart.html">购物车</a><span>{{countInShoppingCart}}</span></div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="header">
+  <div class="headerLayout w1200">
+    <div class="headerCon">
+      <h1 class="mallLogo">
+        <a href="#" title="母婴商城">
+          <img src="../res/static/img/logo.png">
+        </a>
+      </h1>
+      <div class="mallSearch">
+        <form action="" class="layui-form" novalidate>
+          <input type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入需要的商品">
+          <button class="layui-btn" lay-submit lay-filter="formDemo">
+            <i class="layui-icon layui-icon-search"></i>
+          </button>
+          <input type="hidden" name="" value="">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="content content-nav-base transaction-content" id="app">
+  <div class="main-nav">
+    <div class="inner-cont0">
+      <div class="inner-cont1 w1200">
+        <div class="inner-cont2">
+          <a href="commodity.html" class="active">所有商品</a>
+          <a href="buytoday.html">今日团购</a>
+          <a href="information.html">书籍资讯</a>
+          <a href="about.html">关于我们</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="banner-bg w1200">
+    <h3>夏季清仓</h3>
+    <p>宝宝被子、宝宝衣服3折起</p>
+  </div>
+  <div class="cart w1200">
+    <div class="cart-table-th">
+      <div class="th th-chk">
+        <div class="select-all">
+          <div class="cart-checkbox">
+            <input  @click="checkAll($event)" class="check-all check" id="allCheckked" type="checkbox">
+          </div>
+          <label>&nbsp;&nbsp;全选</label>
+        </div>
+      </div>
+      <div class="th th-item">
+        <div class="th-inner">
+          商品
+        </div>
+      </div>
+      <div class="th th-no">
+        <div class="th-inner">
+          订单编号
+        </div>
+      </div>
+      <div class="th th-price">
+        <div class="th-inner">
+          单价
+        </div>
+      </div>
+      <div class="th th-amount">
+        <div class="th-inner">
+          数量
+        </div>
+      </div>
+      <div class="th th-sum">
+        <div class="th-inner">
+          小计
+        </div>
+      </div>
+      <div class="th th-status">
+        <div class="th-inner">
+          订单状态
+        </div>
+      </div>
+      <div class="th th-op">
+        <div class="th-inner">
+          操作
+        </div>
+      </div>
+    </div>
+    <div class="OrderList">
+      <div class="order-content" id="list-cont">
+
+          <ul v-for="(item,index) in transactions" class="item-content layui-clear">
+          <li class="th th-chk">
+            <div class="select-all">
+              <div class="cart-checkbox">
+                <input v-model="checkbox" :id="generateId(index)" :value="item.orderNo" class="CheckBoxShop check"  type="checkbox" num="all" name="select-all" value="true">
+              </div>
+            </div>
+          </li>
+          <li class="th th-item">
+            <div class="item-cont">
+              <a href="javascript:;"><img src="../res/static/img/rohan-kotowaru-sm.png" alt=""></a>
+              <div class="text">
+                <div class="title">{{item.bookName}}</div>
+                <p><span>{{orderTime(index)}}</span></p>
+              </div>
+            </div>
+          </li>
+          <li class="th th-no">
+            <span>{{item.orderNo}}</span>
+          </li>
+          <li class="th th-price">
+            <span class="th-su">{{item.unitPrice}}</span>
+          </li>
+          <li class="th th-amount">
+            <span class="th-su">{{item.amount}}</span>
+          </li>
+          <li class="th th-sum">
+            <span class="sum">{{item.totalPrice}}</span>
+          </li>
+          <li class="th th-status">
+            <span>已完成</span>
+          </li>
+          <li class="th th-op">
+            <span class="th-su" @click="remove(index)">删除</span>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+
+
+    <div class="FloatBarHolder layui-clear">
+      <div class="th th-chk">
+        <div class="select-all">
+          <label>&nbsp;&nbsp;已选<span class="Selected-pieces">{{selected}}</span>件</label>
+        </div>
+      </div>
+      <div class="th batch-deletion">
+        <span class="batch-dele-btn" @click="removeSelected">批量删除</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  layui.config({
+    base: '../res/static/js/util' //你存放新模块的目录，注意，不是layui的模块目录
+  }).use(['jquery','form'],function(){
+    var $ = layui.$,form = layui.form;
+  })
+</script>
+<script src="../res/static/js/jquery/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="../res/static/js/vue/header.js"></script>
+<script src="../res/static/js/vue/transaction.js"></script>
+</body>
+</html>

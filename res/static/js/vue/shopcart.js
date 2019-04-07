@@ -1,7 +1,7 @@
 let app = new Vue({
     el: '#app',
     data: {
-            serverUrl: 'http://localhost:8080',
+        serverUrl: 'http://localhost:8080',
         shoppingCart: [],
         cookies: new Map(),
         checkbox: []
@@ -88,6 +88,7 @@ let app = new Vue({
                 });
         },
         remove: function (index) {
+            let uid = header.cookies.get("uid");
             $.ajax({
                 type: 'delete',
                 url: this.serverUrl + '/shoppingCart',
@@ -97,8 +98,8 @@ let app = new Vue({
                     "bookId": this.shoppingCart[index].bookId,
                 },
                 success: function (data) {
-                    console.log("success");
-                    console.log(data)
+                    layer.msg('删除成功');
+                    header.getShoppingCart(uid);
                 },
                 error:function (data) {
                     console.log(data)
@@ -112,6 +113,7 @@ let app = new Vue({
         removeSelected: function () {
             this.shoppingCart.filter(i => this.checkbox.indexOf(i.bookId) != -1)
                 .forEach(function (obj) {
+                    let uid = header.cookies.get("uid");
                     $.ajax({
                         type: 'delete',
                         url: app.serverUrl + '/shoppingCart',
@@ -121,8 +123,8 @@ let app = new Vue({
                             "bookId": obj.bookId,
                         },
                         success: function (data) {
-                            console.log("success");
-                            console.log(data)
+                            layer.msg('删除成功');
+                            header.getShoppingCart(uid);
                         },
                         error:function (data) {
                             console.log(data)
@@ -147,6 +149,50 @@ let app = new Vue({
             }else{
                 this.checkbox = new Array();
             }
+        },
+        pay: function (event) {
+            if(this.checkbox.length == 0){
+                layer.msg("您未选中任何商品");
+                return false;
+            }
+
+            let transactions = [];
+            let uid = header.cookies.get("uid");
+
+            for(let i in this.checkbox){
+                let transaction = {};
+                let bid = this.checkbox[i];
+                let obj = app.shoppingCart.filter(i => i.bookId === bid)[0];
+                transaction.bookId = bid;
+                transaction.userId = obj.userId;
+                transaction.amount = obj.amount;
+                transaction.bookName = obj.bookInfo.bookName;
+                transaction.unitPrice = obj.bookInfo.price;
+                transactions.push(transaction);
+            }
+
+            $.ajax({
+                type: 'post',
+                url: this.serverUrl + '/Transaction',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify(transactions),
+                success: function (json) {
+                    if(json.code == 1){
+                        console.log("success");
+                        console.log(json);
+                        header.getShoppingCart(uid);
+                        layer.msg("购买成功，2秒后跳转至订单页");
+                        setTimeout(function () {
+                            window.location.href = "transaction.html";
+                        },2*1000);
+                    }
+                },
+                error:function (data) {
+                    console.log(data)
+                }
+            });
+
         }
     }
 });
