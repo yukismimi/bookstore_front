@@ -11,20 +11,20 @@
 </head>
 <body>
 
-<div class="site-nav-bg" id="nav">
-  <div class="site-nav w1200">
-    <p class="sn-back-home">
-      <i class="layui-icon layui-icon-home"></i>
-      <a href="#">首页</a>
-    </p>
-    <div class="sn-quick-menu">
-      <div v-if="cookies.has('username')" class="login">{{cookies.get("username")}}</div>
-      <div v-else class="login"><a href="login.html">登录</a></div>
-      <div v-if="cookies.has('username')" class="login"><a href="transaction.html">我的订单</a></div>
-      <div v-if="cookies.has('username')" class="sp-cart"><a href="shopcart.html">购物车</a><span>{{countInShoppingCart}}</span></div>
+  <div class="site-nav-bg" id="nav">
+    <div class="site-nav w1200">
+      <p class="sn-back-home">
+        <i class="layui-icon layui-icon-home"></i>
+        <a href="#">首页</a>
+      </p>
+      <div class="sn-quick-menu">
+        <div v-if="cookies.has('username')" class="login"><a href="userInfo.html">{{cookies.get("username")}}</a></div>
+        <div v-else class="login"><a href="login.html">登录</a></div>
+        <div v-if="cookies.has('username')" class="login"><a href="transaction.html">我的订单</a></div>
+        <div v-if="cookies.has('username')" class="sp-cart"><a href="shopcart.html">购物车</a><span>{{countInShoppingCart}}</span></div>
+      </div>
     </div>
   </div>
-</div>
 
 
 

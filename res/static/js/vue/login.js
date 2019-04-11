@@ -17,8 +17,25 @@ let app = new Vue({
             this.isLogin = !this.isLogin;
         },
         login: function (event) {
-            console.log("login methods")
-            $.ajax({
+            this.$http.post(this.serverUrl+'/login',
+                    JSON.stringify({
+                    "userName": this.username,
+                    "password": this.password
+                })).then((response)=> {
+                if (response.body.code === 1) {
+                    document.cookie = "username=" + response.body.data.userName.toString();
+                    document.cookie = "uid=" + response.body.data.id.toString();
+                    document.cookie = "token=" + response.headers.get("Token").toString();
+                    if (window.history.length > 1) {
+                        window.history.back(-1);
+                    } else {
+                        window.location.href = "index.html";
+                    }
+                } else
+                    alert(response.data.code)
+            });
+
+            /*$.ajax({
                 type: 'post',
                 url: this.serverUrl + '/login',
                 contentType: "application/json; charset=utf-8",
@@ -36,13 +53,12 @@ let app = new Vue({
                             window.history.back(-1);
                         } else {
                             window.location.href = "index.html";
-
                         }
                     }
                     else
                         alert("password error")
                 }
-            });
+            });*/
             return false;
         },
         regist: function (event) {

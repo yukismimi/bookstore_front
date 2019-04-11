@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
@@ -9,21 +9,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 </head>
-<body id="list-cont">
-<div class="site-nav-bg" id="nav">
-  <div class="site-nav w1200">
-    <p class="sn-back-home">
-      <i class="layui-icon layui-icon-home"></i>
-      <a href="#">首页</a>
-    </p>
-    <div class="sn-quick-menu">
-      <div v-if="cookies.has('username')" class="login">{{cookies.get("username")}}</div>
-      <div v-else class="login"><a href="login.html">登录</a></div>
-      <div v-if="cookies.has('username')" class="login"><a href="transaction.html">我的订单</a></div>
-      <div v-if="cookies.has('username')" class="sp-cart"><a href="shopcart.html">购物车</a><span>{{countInShoppingCart}}</span></div>
+
+  <body id="list-cont">
+  <div class="site-nav-bg" id="nav">
+    <div class="site-nav w1200">
+      <p class="sn-back-home">
+        <i class="layui-icon layui-icon-home"></i>
+        <a href="#">首页</a>
+      </p>
+      <div class="sn-quick-menu">
+        <div v-if="cookies.has('username')" class="login"><a href="userInfo.html">{{cookies.get("username")}}</a></div>
+        <div v-else class="login"><a href="login.html">登录</a></div>
+        <div v-if="cookies.has('username')" class="login"><a href="transaction.html">我的订单</a></div>
+        <div v-if="cookies.has('username')" class="sp-cart"><a href="shopcart.html">购物车</a><span>{{countInShoppingCart}}</span></div>
+      </div>
     </div>
   </div>
-</div>
 
 
   <div class="header">
@@ -48,7 +49,7 @@
   </div>
 
 
-  <div class="content">
+  <div class="content" id="app">
     <div class="main-nav">
       <div class="inner-cont0">
         <div class="inner-cont1 w1200">
@@ -69,46 +70,20 @@
         <div class="category-tab-content">
           <div class="nav-con">
             <ul class="normal-nav layui-clear">
-              <li class="nav-item">
-                <div class="title">奶粉辅食</div>
-                <p><a href="#">奶粉</a><a href="#">捕食</a><a href="#">营养品</a></p>
+
+              <li v-for="(clazz,index) in classes" class="nav-item" :class="{nobor: index === lastIndexOfClasses}">
+                <div class="title">{{clazz.className}}</div>
+                <p>
+                  <a v-for="subClazz in clazz.clzList" href="#">{{subClazz.subClassName}}</a>
+                </p>
                 <i class="layui-icon layui-icon-right"></i>
               </li>
-              <li class="nav-item">
-                <div class="title">纸尿裤</div>
-                <p><a href="#">纸尿裤</a><a href="#">婴儿湿巾</a></p>
-                <i class="layui-icon layui-icon-right"></i>
-              </li>
-              <li class="nav-item">
-                <div class="title">洗护用品</div>
-                <p><a href="#">母婴洗护用品</a><a href="#">孕婴童用品</a></p>
-                <i class="layui-icon layui-icon-right"></i>
-              </li>
-              <li class="nav-item">
-                <div class="title">儿童玩具</div>
-                <p><a href="#">婴幼玩具</a><a href="#">遥控玩具</a><a href="#">积木拼插</a></p>
-                <i class="layui-icon layui-icon-right"></i>
-              </li>
-              <li class="nav-item">
-                <div class="title">车窗座椅</div>
-                <p><a href="#">婴儿推车</a><a href="#">儿童安全座骑</a></p>
-                <i class="layui-icon layui-icon-right"></i>
-              </li>
-              <li class="nav-item">
-                <div class="title">儿童童鞋</div>
-                <p><a href="#">童装</a><a href="#">童鞋</a><a href="#">婴童内衣及配饰</a></p>
-                <i class="layui-icon layui-icon-right"></i>
-              </li>
-              <li class="nav-item">
-                <div class="title">儿童图片</div>
-                <p><a href="#">0-2岁</a><a href="#">早教启蒙</a><a href="#">孕产育儿</a></p>
-                <i class="layui-icon layui-icon-right"></i>
-              </li>
-              <li class="nav-item nobor">
+
+              <!--<li class="nav-item nobor">
                 <div class="title">孕妈专区</div>
                 <p><a href="#">孕妇装</a><a href="#">背婴带</a><a href="#">母婴服务</a></p>
                 <i class="layui-icon layui-icon-right"></i>
-              </li>
+              </li>-->
             </ul>
           </div>
         </div>
@@ -128,12 +103,12 @@
             </a>
           </div>
           <div class="sk_bd">
-            <div class="layui-carousel" id="test1">
+            <div class="layui-carousel" id="carousel">
               <div carousel-item>
                 <div class="item-box">
-                  <div v-for="book in books" class="item">
+                  <div v-for="(book,index) in books" class="item">
                     <a href="javascript:;"><img src="../res/static/img/rohan-kotowaru-mdrohan-kotowaru-190.png"></a>
-                    <div class="title">{{book.bookName}}</div>
+                    <div class="title">{{bookName(index)}}</div>
                     <div class="price">
                       <span>￥{{book.price}}</span>
                       <del>￥{{book.price}}</del>
@@ -141,9 +116,9 @@
                   </div>
                 </div>
                 <div class="item-box">
-                  <div v-for="book in books" class="item">
+                  <div v-for="(book,index) in books" class="item">
                     <a href="javascript:;"><img src="../res/static/img/rohan-kotowaru-mdrohan-kotowaru-190.png"></a>
-                    <div class="title">{{book.bookName}}</div>
+                    <div class="title">{{bookName(index)}}</div>
                     <div class="price">
                       <span>￥{{book.price}}</span>
                       <del>￥{{book.price}}</del>
@@ -423,7 +398,7 @@ layui.config({
   </script>
   <script src="../res/static/js/jquery/jquery-3.3.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-  <script src="../res/static/js/vue/bookstore.js"></script>
+  <script src="../res/static/js/vue/index.js"></script>
   <script src="../res/static/js/vue/header.js"></script>
 </body>
 </html>

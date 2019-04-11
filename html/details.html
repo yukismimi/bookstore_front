@@ -18,7 +18,7 @@
       <a href="#">首页</a>
     </p>
     <div class="sn-quick-menu">
-      <div v-if="cookies.has('username')" class="login">{{cookies.get("username")}}</div>
+      <div v-if="cookies.has('username')" class="login"><a href="userInfo.html">{{cookies.get("username")}}</a></div>
       <div v-else class="login"><a href="login.html">登录</a></div>
       <div v-if="cookies.has('username')" class="login"><a href="transaction.html">我的订单</a></div>
       <div v-if="cookies.has('username')" class="sp-cart"><a href="shopcart.html">购物车</a><span>{{countInShoppingCart}}</span></div>

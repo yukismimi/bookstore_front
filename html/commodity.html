@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns: xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
@@ -18,7 +18,7 @@
       <a href="#">首页</a>
     </p>
     <div class="sn-quick-menu">
-      <div v-if="cookies.has('username')" class="login">{{cookies.get("username")}}</div>
+      <div v-if="cookies.has('username')" class="login"><a href="userInfo.html">{{cookies.get("username")}}</a></div>
       <div v-else class="login"><a href="login.html">登录</a></div>
       <div v-if="cookies.has('username')" class="login"><a href="transaction.html">我的订单</a></div>
       <div v-if="cookies.has('username')" class="sp-cart"><a href="shopcart.html">购物车</a><span>{{countInShoppingCart}}</span></div>
@@ -36,13 +36,12 @@
             <img src="../res/static/img/logo.png">
           </a>
         </h1>
-        <div class="mallSearch">
-          <form action="" class="layui-form" novalidate>
-            <input type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入需要的商品">
-            <button class="layui-btn" lay-submit lay-filter="formDemo">
+        <div class="mallSearch" id="searchBar">
+          <form>
+            <input v-model="bookName" type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入需要的商品">
+            <button class="layui-btn" type="button" lay-submit lay-filter="formDemo" @click="findBook">
                 <i class="layui-icon layui-icon-search"></i>
             </button>
-            <input type="hidden" name="" value="">
           </form>
         </div>
       </div>
@@ -68,47 +67,19 @@
         <div class="left-nav">
           <div class="title">所有分类</div>
           <div class="list-box">
-            <dl>
-             <dt>奶粉辅食</dt>
-             <dd><a href="javascript:;">进口奶粉</a></dd>
-             <dd><a href="javascript:;">宝宝辅食</a></dd>
-             <dd><a href="javascript:;">营养品</a></dd>
-            </dl>
-            <dl>
-             <dt>儿童用品</dt>
-             <dd><a href="javascript:;">纸尿裤</a></dd>
-             <dd><a href="javascript:;">婴儿湿巾</a></dd>
-             <dd><a href="javascript:;">婴儿车</a></dd>
-             <dd><a href="javascript:;">婴儿床</a></dd>
-             <dd><a href="javascript:;">儿童安全座椅</a></dd>
-            </dl>
-            <dl>
-             <dt>儿童早教</dt>
-             <dd><a href="javascript:;">儿童玩具</a></dd>
-             <dd><a href="javascript:;">早教书籍</a></dd>
-             <dd><a href="javascript:;">孕产育儿书</a></dd>
-            </dl>
-            <dl>
-             <dt>儿童服饰</dt>
-             <dd><a href="javascript:;">童装</a></dd>
-             <dd><a href="javascript:;">童鞋</a></dd>
-             <dd><a href="javascript:;">宝宝配饰</a></dd>
-            </dl>
-            <dl>
-             <dt>孕妈专区</dt>
-             <dd><a href="javascript:;">孕妇装</a></dd>
-             <dd><a href="javascript:;">孕妇护肤</a></dd>
-             <dd><a href="javascript:;">孕妇用品</a></dd>
+            <dl v-for="(clazz,index) in classes">
+             <dt>{{clazz.className}}</dt>
+             <dd v-for="subClass in clazz.clzList">
+               <a href="javascript:;">{{subClass.subClassName}}</a>
+             </dd>
             </dl>
           </div>
         </div>
         <div class="right-cont-wrap">
           <div class="right-cont">
             <div class="sort layui-clear">
-              <a class="active" href="javascript:;" event = 'volume'>销量</a>
-              <a href="javascript:;" event = 'price'>价格</a>
-              <a href="javascript:;" event = 'newprod'>新品</a>
-              <a href="javascript:;" event = 'collection'>收藏</a>
+              <a href="javascript:;" @click="sortByPrice">价格</a>
+              <a href="javascript:;" @click="sortByStock">库存</a>
             </div>
             <div class="prod-number">
               <span>{{bookCount}}个商品</span>
@@ -122,7 +93,7 @@
                   <p class="title">{{bookName(index)}}</p>
                   <p class="price">
                     <span class="pri">￥{{book.price}}</span>
-                    <span class="nub">1266付款</span>
+                    <span class="nub">库存&nbsp;{{book.stock}}件</span>
                   </p>
                 </div>
               </div>
@@ -143,7 +114,9 @@
   </script>
   <script src="../res/static/js/jquery/jquery-3.3.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="../res/static/js/vue/common.js"></script>
   <script src="../res/static/js/vue/header.js"></script>
-  <script src="../res/static/js/vue/bookstore.js"></script>
+  <script src="../res/static/js/vue/commodity.js"></script>
+  <script src="../res/static/js/vue/search.js"></script>
 </body>
 </html>
