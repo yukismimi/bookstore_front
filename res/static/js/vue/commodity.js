@@ -1,5 +1,3 @@
-
-
 let app = new Vue({
     el: '#test1',
     data: {
@@ -119,3 +117,23 @@ let app = new Vue({
     }
 });
 
+Vue.component('button-counter', {
+    data: function () {
+        return {
+            count: 0
+        }
+    },
+    template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+});
+Vue.component('ccc',{
+    props:['book'],
+    template: '<p class="price"><span class="pri">￥{{book.price}}</span><span class="nub">库存&nbsp;{{book.stock}}件</span></p>'
+});
+Vue.component('async-example', function (resolve, reject) {
+    setTimeout(function () {
+        // 向 `resolve` 回调传递组件定义
+        resolve({
+            template: '<div>I am async!</div>'
+        })
+    }, 1000)
+})

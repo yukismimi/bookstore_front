@@ -25,7 +25,7 @@ let header = new Vue({
             let cookieList = document.cookie.split(';');
             for(let i in cookieList){
                 let ck = cookieList[i].split('=');
-                map.set(ck[0].trim(),ck[1].trim())
+                map.set(ck[0].trim(),ck[1].trim());
             }
             _this.cookies = map
         },
@@ -38,7 +38,7 @@ let header = new Vue({
                 success: function (data) {
                     _this.shoppingCart = new Array();
                     for(let i in data){
-                        _this.shoppingCart.push(data[i])
+                        _this.shoppingCart.push(data[i]);
                     }
                 }
             });

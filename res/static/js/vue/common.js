@@ -1,9 +1,11 @@
-Vue.http.interceptors.push((request, next) => {
+
+/*Vue.http.interceptors.push((request, next) => {
     // ...
     // 请求发送前的处理逻辑
-    let token = cookies2Map().get('token');
-    if( token != null){
-        request.headers.set('token',token);
+    console.log("interceptors");
+    let token = cookies2Map();
+    if( token.get('token') !== null){
+        request.headers.set('token',token.get('token'));
     }
 
     next((response) => {
@@ -13,14 +15,31 @@ Vue.http.interceptors.push((request, next) => {
         // 根据请求的状态，response参数会返回给successCallback或errorCallback
         return response
     })
+});*/
+$().ready(function () {
+
+    $.ajaxSetup({
+        headers:{
+            "Token":cookies2Map().get("token")
+        },
+        beforeSend: function () {
+            console.log('before send');
+        },
+        success: function () {
+            console.log('success');
+        }
+    });
+
 });
 
 cookies2Map = function () {
     let map = new Map();
     let cookieList = document.cookie.split(';');
     for(let i in cookieList){
-        let ck = cookieList[i].split('=');
-        map.set(ck[0].trim(),ck[1].trim())
+        if(cookieList[i] !== '') {
+            let ck = cookieList[i].split('=');
+            map.set(ck[0].trim(), ck[1].trim());
+        }
     }
     return map;
 };
@@ -38,4 +57,4 @@ const refreshPage = function () {
             }
         });
     });
-}
+};

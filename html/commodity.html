@@ -11,6 +11,7 @@
 </head>
 <body>
 
+
 <div class="site-nav-bg" id="nav">
   <div class="site-nav w1200">
     <p class="sn-back-home">
@@ -90,7 +91,6 @@
                   <a :href="'details.html?id='+book.id"><img src="../res/static/img/rohan-kotowaru.png"></a>
                 </div>
                 <div class="text">
-                  <p class="title">{{bookName(index)}}</p>
                   <p class="price">
                     <span class="pri">￥{{book.price}}</span>
                     <span class="nub">库存&nbsp;{{book.stock}}件</span>
@@ -98,9 +98,7 @@
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
         <div id="demo0" style="text-align: center;"></div>
       </div>

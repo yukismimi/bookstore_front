@@ -17,6 +17,7 @@ let app = new Vue({
             this.isLogin = !this.isLogin;
         },
         login: function (event) {
+            /*
             this.$http.post(this.serverUrl+'/login',
                     JSON.stringify({
                     "userName": this.username,
@@ -34,8 +35,9 @@ let app = new Vue({
                 } else
                     alert(response.data.code)
             });
+            */
 
-            /*$.ajax({
+            $.ajax({
                 type: 'post',
                 url: this.serverUrl + '/login',
                 contentType: "application/json; charset=utf-8",
@@ -44,11 +46,12 @@ let app = new Vue({
                    "userName": this.username,
                    "password": this.password
                 }),
-                success: function (json) {
-
-                    if(json.code == 1) {
+                success: function (json,textStatus,request) {
+                    if(json.code === 1) {
                         document.cookie = "username=" + json.data.userName.toString();
                         document.cookie = "uid=" + json.data.id.toString();
+                        console.log(json)
+                        document.cookie = "token=" + request.getResponseHeader("Token");
                         if (window.history.length > 1) {
                             window.history.back(-1);
                         } else {
@@ -58,7 +61,7 @@ let app = new Vue({
                     else
                         alert("password error")
                 }
-            });*/
+            });
             return false;
         },
         regist: function (event) {
@@ -66,7 +69,8 @@ let app = new Vue({
                 layer.msg("两次密码输入不一致，请重新输入");
                 return false;
             }
-            console.log("regist methods")
+            console.log("regist methods");
+
             $.ajax({
                 type: 'post',
                 url: this.serverUrl + '/user',
