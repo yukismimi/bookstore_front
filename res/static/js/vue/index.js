@@ -33,6 +33,12 @@ let app = new Vue({
     methods : {
         getBookList : function () {
             let _this = this;
+            this.$http.get(this.serverUrl + '/bookList')
+                .then((response)=>{
+                    _this.books = response.body
+                });
+
+            /*
             $.ajax({
                 type : 'get',
                 url : this.serverUrl + '/bookList',
@@ -43,6 +49,7 @@ let app = new Vue({
                     }
                 }
             });
+            */
         },
         bookName: function (index) {
             console.log(index);
@@ -50,8 +57,14 @@ let app = new Vue({
             return this.books[index].bookName.length <= 11 ? this.books[index].bookName : this.books[index].bookName.substring(0,11) + '...';
         },
         getBookClass: function () {
+            console.log("getBookClass");
             let _this = this;
-            $.ajax({
+
+            this.$http.get(this.serverUrl + '/bookClass')
+                .then((response)=>{
+                    _this.classes = response.body
+                });
+            /*$.ajax({
                 type : 'get',
                 url : this.serverUrl + '/bookClass',
                 dataType : 'json',
@@ -60,7 +73,7 @@ let app = new Vue({
                         _this.classes.push(json[i]);
                     }
                 }
-            });
+            });*/
         }
     }
 });

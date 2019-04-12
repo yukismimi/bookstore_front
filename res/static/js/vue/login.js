@@ -17,7 +17,7 @@ let app = new Vue({
             this.isLogin = !this.isLogin;
         },
         login: function (event) {
-            /*
+
             this.$http.post(this.serverUrl+'/login',
                     JSON.stringify({
                     "userName": this.username,
@@ -35,8 +35,9 @@ let app = new Vue({
                 } else
                     alert(response.data.code)
             });
-            */
 
+
+            /*
             $.ajax({
                 type: 'post',
                 url: this.serverUrl + '/login',
@@ -62,6 +63,7 @@ let app = new Vue({
                         alert("password error")
                 }
             });
+            */
             return false;
         },
         regist: function (event) {

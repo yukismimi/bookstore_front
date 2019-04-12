@@ -1,5 +1,5 @@
 
-/*Vue.http.interceptors.push((request, next) => {
+Vue.http.interceptors.push((request, next) => {
     // ...
     // 请求发送前的处理逻辑
     console.log("interceptors");
@@ -15,8 +15,20 @@
         // 根据请求的状态，response参数会返回给successCallback或errorCallback
         return response
     })
-});*/
-$().ready(function () {
+});
+/*
+import _global from 'global'
+Vue.prototype.GLOBAL = _global;
+export default {
+    name: 'text',
+    data () {
+        return {
+            token:this.GLOBAL.token,//直接通过this访问全局变量。
+        }
+    }
+}*/
+
+/*$().ready(function () {
 
     $.ajaxSetup({
         headers:{
@@ -30,7 +42,7 @@ $().ready(function () {
         }
     });
 
-});
+});*/
 
 cookies2Map = function () {
     let map = new Map();
