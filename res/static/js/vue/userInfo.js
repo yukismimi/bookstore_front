@@ -23,41 +23,32 @@ let app = new Vue({
         getUserInfo: function () {
             let uid = this.cookies.get("uid");
             let _this = this;
-            $.ajax({
-                type: 'get',
-                url: this.serverUrl + '/user?id=' + uid,
-                dataType: 'json',
-                success: function (data) {
-                    _this.userInfo = data;
-                }
-            });
+            this.$http.get(this.serverUrl + '/user?id=' + uid)
+                .then((response)=>{
+                    _this.userInfo = response.body;
+                });
         },
         update: function () {
             let uid = this.cookies.get("uid");
             let _this = this;
-            $.ajax({
-                type: 'put',
-                url: this.serverUrl + '/user',
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({
+            this.$http.put(this.serverUrl + '/user',
+                JSON.stringify({
                     "id": uid,
                     "userName": this.userInfo.userName,
                     "age": this.userInfo.age,
                     "gender": this.userInfo.gender,
                     "mailAddress": this.userInfo.mailAddress,
                     "otherInfo":this.userInfo.otherInfo
-                }),
-                success: function (data) {
-                    console.log("success");
-                    console.log(data)
-                },
-                error:function (data) {
-                    console.log(data)
-                }
-            });
+                }))
+                .then((response)=>{
+                    layer.msg("更新成功,2秒后跳转");
+                    setTimeout(function () {
+                        window.history.back(-1);
+                    },2*1000);
+                });
         },
         back: function () {
-
+            window.history.back(-1);
         }
     }
 });

@@ -1,4 +1,3 @@
-
 Vue.http.interceptors.push((request, next) => {
     // ...
     // 请求发送前的处理逻辑

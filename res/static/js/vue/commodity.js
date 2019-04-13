@@ -17,17 +17,12 @@ let app = new Vue({
         }
     },
     methods : {
-
         getBookList : function () {
             let _this = this;
-            $.ajax({
-                type : 'get',
-                url : this.serverUrl + '/bookList',
-                dataType : 'json',
-                success : function (json) {
-                    for(let i in json){
-                        _this.books.push(json[i]);
-                    }
+
+            this.$http.get(this.serverUrl + '/bookList')
+                .then((response)=>{
+                    _this.books = response.body;
                     layui.use(['mm','laypage','jquery'],function(){
                         var laypage = layui.laypage;
                         let _this = this;
@@ -54,8 +49,7 @@ let app = new Vue({
                         })
 
                     });
-                }
-            });
+                });
         },
         getCurrPageBooks : function (page) {
             start = (page-1)*9;
@@ -103,37 +97,10 @@ let app = new Vue({
         },
         getBookClass: function () {
             let _this = this;
-            $.ajax({
-                type : 'get',
-                url : this.serverUrl + '/bookClass',
-                dataType : 'json',
-                success : function (json) {
-                    for(let i in json){
-                        _this.classes.push(json[i]);
-                    }
-                }
-            });
+            this.$http.get(this.serverUrl + '/bookClass')
+                .then((response)=>{
+                    _this.classes = response.body;
+                });
         }
     }
 });
-
-Vue.component('button-counter', {
-    data: function () {
-        return {
-            count: 0
-        }
-    },
-    template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
-});
-Vue.component('ccc',{
-    props:['book'],
-    template: '<p class="price"><span class="pri">￥{{book.price}}</span><span class="nub">库存&nbsp;{{book.stock}}件</span></p>'
-});
-Vue.component('async-example', function (resolve, reject) {
-    setTimeout(function () {
-        // 向 `resolve` 回调传递组件定义
-        resolve({
-            template: '<div>I am async!</div>'
-        })
-    }, 1000)
-})

@@ -31,26 +31,26 @@ let app = new Vue({
                 return false;
             let uid = this.cookies.get("uid");
             let _this = this;
-            $.ajax({
-                type: 'put',
-                url: _this.serverUrl + '/password',
-                contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                data:{
+
+            this.$http.put(this.serverUrl + '/password',{
                     "id": uid,
                     "beforePassword":_this.beforePassword,
                     "afterPassword":_this.afterPassword
                 },
-                success: function (data) {
-                    console.log("success");
-                    console.log(data)
-                },
-                error:function (data) {
-                    console.log(data)
-                }
-            });
+                {"emulateJSON":true}
+            )
+                .then((response)=>{
+                   if(response.body.code === 1) {
+                       layer.msg("密码更改成功,2秒后返回");
+                       setTimeout(function () {
+                           window.history.back(-2);
+                       }, 2 * 1000);
+                   }else
+                       layer.msg("密码修改失败");
+                });
         },
         back: function () {
-
+            window.history.back(-1);
         }
     }
 });

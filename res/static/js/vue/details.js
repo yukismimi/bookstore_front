@@ -11,40 +11,48 @@ let app = new Vue({
     methods : {
         getDetailsById: function (id) {
             let _this = this;
-            $.ajax({
-                type: 'get',
-                url: this.serverUrl + '/book?id=' + id,
-                dataType: 'json',
-                success: function (json) {
-                    _this.details = json
-                }
-            });
+            this.$http.get(this.serverUrl+'/book?id='+id)
+                .then((response) =>{
+                    _this.details = response.body;
+                    });
         },
         addToShoppingCart: function(){
             let amount = $("#amount").val();
             let uid = header.cookies.get("uid");
-            $.ajax({
-                type: 'post',
-                url: this.serverUrl + '/shoppingCart',
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: JSON.stringify({
+
+            this.$http.post(this.serverUrl+'/shoppingCart',
+                JSON.stringify({
                     "userId": uid,
                     "bookId": this.bookId,
                     "amount": amount
-                }),
-                success: function (data) {
-                    console.log("success");
-                    console.log(data);
+                })).then((response)=> {
                     header.getShoppingCart(uid);
-                },
-                error:function (data) {
-                    console.log(data)
-                }
             });
+        },
+        pay: function (event) {
+            let transactions = [];
+            let uid = header.cookies.get("uid");
+            let amount = $("#amount").val();
+            let transaction = {};
+            transaction.bookId = this.details.id;
+            transaction.userId = uid;
+            transaction.amount = amount;
+            transaction.bookName = this.details.bookName;
+            transaction.unitPrice = this.details.price;
+            transactions.push(transaction);
 
+            this.$http.post(this.serverUrl + '/Transaction',
+                JSON.stringify(transactions))
+                .then((response)=>{
+                    if(response.body.code === 1){
+                        header.getShoppingCart(uid);
+                        layer.msg("购买成功，2秒后跳转至订单页");
+                        setTimeout(function () {
+                            window.location.href = "transaction.html";
+                        },2*1000);
+                    }
+                });
         }
     }
-
 });
 

@@ -16,6 +16,7 @@
   <link href="input/css/bootstrap.min.css" rel="stylesheet">
   <link href="input/css/templatemo-style.css" rel="stylesheet">
 
+  <script type="text/javascript" src="../res/layui/layui.js"></script>
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -95,12 +96,19 @@
     </div>
 
       <!-- JS -->
+      <script type="text/javascript">
+        layui.config({
+          base: '../res/static/js/util' //你存放新模块的目录，注意，不是layui的模块目录
+        }).use(['jquery','form'],function(){
+          var $ = layui.$,form = layui.form;
+        })
+      </script>
       <script type="text/javascript" src="input/js/jquery-3.3.1.min.js"></script>        <!-- jQuery -->
       <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-      <script src="../res/static/js/vue/userInfo.js"></script>
       <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
-      <script src="../res/static/js/vue/common.js"></script>
       <script type="text/javascript" src="input/js/bootstrap-filestyle.min.js"></script>  <!-- http://markusslima.github.io/bootstrap-filestyle/ -->
       <script type="text/javascript" src="input/js/templatemo-script.js"></script>        <!-- Templatemo Script -->
+      <script src="../res/static/js/vue/common.js"></script>
+      <script src="../res/static/js/vue/userInfo.js"></script>
   </body>
 </html>

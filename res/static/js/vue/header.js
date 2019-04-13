@@ -1,4 +1,4 @@
-let header = new Vue({
+const header = new Vue({
     el: '#nav',
     data: {
         serverUrl: 'http://localhost:8080',
@@ -31,18 +31,11 @@ let header = new Vue({
         },
         getShoppingCart: function (uid) {
             let _this = this;
-            $.ajax({
-                type: 'get',
-                url: this.serverUrl + '/shoppingCart?userId=' + uid,
-                dataType: 'json',
-                success: function (data) {
-                    _this.shoppingCart = new Array();
-                    for(let i in data){
-                        _this.shoppingCart.push(data[i]);
-                    }
-                }
-            });
+
+            this.$http.get(this.serverUrl + '/shoppingCart?userId='+uid)
+                .then((response)=>{
+                    _this.shoppingCart = response.body;
+                });
         }
     }
-
 });

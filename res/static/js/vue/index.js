@@ -18,7 +18,6 @@ let app = new Vue({
                 ,height:'298'
                 ,indicator:'none'
             };
-
             carousel.render(option);
         });
     },
@@ -35,45 +34,19 @@ let app = new Vue({
             let _this = this;
             this.$http.get(this.serverUrl + '/bookList')
                 .then((response)=>{
-                    _this.books = response.body
+                    _this.books = response.body;
                 });
-
-            /*
-            $.ajax({
-                type : 'get',
-                url : this.serverUrl + '/bookList',
-                dataType : 'json',
-                success : function (json) {
-                    for(let i in json){
-                        _this.books.push(json[i]);
-                    }
-                }
-            });
-            */
         },
         bookName: function (index) {
-            console.log(index);
-            console.log(this.books[index]);
             return this.books[index].bookName.length <= 11 ? this.books[index].bookName : this.books[index].bookName.substring(0,11) + '...';
         },
         getBookClass: function () {
             console.log("getBookClass");
             let _this = this;
-
             this.$http.get(this.serverUrl + '/bookClass')
                 .then((response)=>{
-                    _this.classes = response.body
+                    _this.classes = response.body;
                 });
-            /*$.ajax({
-                type : 'get',
-                url : this.serverUrl + '/bookClass',
-                dataType : 'json',
-                success : function (json) {
-                    for(let i in json){
-                        _this.classes.push(json[i]);
-                    }
-                }
-            });*/
         }
     }
 });

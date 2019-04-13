@@ -2,19 +2,15 @@ let app = new Vue({
     el: '#app',
     data: {
         serverUrl: 'http://localhost:8080',
-        shoppingCart: [],
-        cookies: new Map(),
         checkbox: []
     },
     mounted: function () {
-        this.cookies2Map();
-        this.getShoppingCart(this.cookies.get("uid"));
     },
     computed:{
         total: function () {
             let total = 0;
             for(let i in this.shoppingCart){
-                if(this.checkbox.indexOf(this.shoppingCart[i].bookId) != -1) {
+                if(this.checkbox.indexOf(this.shoppingCart[i].bookId) !== -1) {
                     total += this.shoppingCart[i].amount * this.shoppingCart[i].bookInfo.price;
                 }
             }
@@ -22,6 +18,12 @@ let app = new Vue({
         },
         selected: function () {
             return this.checkbox.length;
+        },
+        cookies:function () {
+            return header.cookies;
+        },
+        shoppingCart: function () {
+            return header.shoppingCart;
         }
     },
     methods : {
@@ -37,99 +39,67 @@ let app = new Vue({
         },
         getShoppingCart: function (uid) {
             let _this = this;
-            $.ajax({
-                type: 'get',
-                url: this.serverUrl + '/shoppingCart?userId=' + uid,
-                dataType: 'json',
-                success: function (data) {
-                    for(let i in data){
-                        _this.shoppingCart.push(data[i])
-                    }
-                }
-            });
+            this.$http.get(this.serverUrl + '/shoppingCart?userId=' + uid)
+                .then((response)=>{
+                    _this.shoppingCart = response.body;
+                });
         },
         add: function (index) {
-            $.ajax({
-                type: 'put',
-                url: this.serverUrl + '/shoppingCart',
-                contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                data: {
-                    "userId": this.shoppingCart[index].userId,
-                    "bookId": this.shoppingCart[index].bookId,
-                    "amount": ++this.shoppingCart[index].amount
-                },
-                success: function (data) {
-                    console.log("success");
-                    console.log(data)
-                },
-                error:function (data) {
-                    console.log(data)
-                }
+
+            this.$http.put(this.serverUrl + '/shoppingCart',{
+                "userId": this.shoppingCart[index].userId,
+                "bookId": this.shoppingCart[index].bookId,
+                "amount": ++this.shoppingCart[index].amount
+            },{"emulateJSON":true}).then((response)=>{
+                console.log("success");
             });
         },
         minus: function (index) {
             if(this.shoppingCart[index].amount > 1)
-                $.ajax({
-                    type: 'put',
-                    url: this.serverUrl + '/shoppingCart',
-                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                    data: {
-                        "userId": this.shoppingCart[index].userId,
-                        "bookId": this.shoppingCart[index].bookId,
-                        "amount": --this.shoppingCart[index].amount
-                    },
-                    success: function (data) {
-                        console.log("success");
-                        console.log(data)
-                    },
-                    error:function (data) {
-                        console.log(data)
-                    }
+                this.$http.put(this.serverUrl + '/shoppingCart',{
+                    "userId": this.shoppingCart[index].userId,
+                    "bookId": this.shoppingCart[index].bookId,
+                    "amount": --this.shoppingCart[index].amount
+                },{"emulateJSON":true}).then((response)=>{
+                    console.log("success");
                 });
         },
         remove: function (index) {
             let uid = header.cookies.get("uid");
-            $.ajax({
-                type: 'delete',
-                url: this.serverUrl + '/shoppingCart',
-                contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                data: {
+
+            this.$http.delete(this.serverUrl + '/shoppingCart',{
+                "body":{
                     "userId": this.shoppingCart[index].userId,
                     "bookId": this.shoppingCart[index].bookId,
                 },
-                success: function (data) {
+                "emulateJSON":true
+            })
+                .then((response)=>{
                     layer.msg('删除成功');
                     header.getShoppingCart(uid);
-                },
-                error:function (data) {
-                    console.log(data)
-                }
-            });
+                });
+
             let bookId = this.shoppingCart[index].bookId;
             this.shoppingCart.splice(index,1);
             let _index = this.checkbox.findIndex(i => i.bookId == bookId);
             this.checkbox.splice(_index,1);
         },
         removeSelected: function () {
+            let _this = this;
             this.shoppingCart.filter(i => this.checkbox.indexOf(i.bookId) != -1)
                 .forEach(function (obj) {
                     let uid = header.cookies.get("uid");
-                    $.ajax({
-                        type: 'delete',
-                        url: app.serverUrl + '/shoppingCart',
-                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                        data: {
-                            "userId": obj.userId,
-                            "bookId": obj.bookId,
-                        },
-                        success: function (data) {
+                    _this.$http.delete(app.serverUrl + '/shoppingCart',{
+                       "body":{
+                           "userId": obj.userId,
+                           "bookId": obj.bookId,
+                       },
+                        "emulateJSON":true
+                    })
+                        .then((response)=>{
                             layer.msg('删除成功');
                             header.getShoppingCart(uid);
-                        },
-                        error:function (data) {
-                            console.log(data)
-                        }
-                    });
+                        });
                 });
 
             this.shoppingCart = this.shoppingCart
@@ -171,28 +141,17 @@ let app = new Vue({
                 transactions.push(transaction);
             }
 
-            $.ajax({
-                type: 'post',
-                url: this.serverUrl + '/Transaction',
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: JSON.stringify(transactions),
-                success: function (json) {
-                    if(json.code == 1){
-                        console.log("success");
-                        console.log(json);
+            this.$http.post(this.serverUrl + '/Transaction',
+                JSON.stringify(transactions))
+                .then((response)=>{
+                    if(response.body.code === 1){
                         header.getShoppingCart(uid);
                         layer.msg("购买成功，2秒后跳转至订单页");
                         setTimeout(function () {
                             window.location.href = "transaction.html";
                         },2*1000);
                     }
-                },
-                error:function (data) {
-                    console.log(data)
-                }
-            });
-
+                });
         }
     }
 });
