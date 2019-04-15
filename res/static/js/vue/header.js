@@ -13,7 +13,18 @@ const header = new Vue({
     computed:{
         countInShoppingCart: function () {
             return this.shoppingCart.length;
-        }
+        },
+        /*cookies:function () {
+            let map = new Map();
+            if(document.cookie === '')
+                return new Map();
+            let cookieList = document.cookie.split(';');
+            for(let i in cookieList){
+                let ck = cookieList[i].split('=');
+                map.set(ck[0].trim(),ck[1].trim());
+            }
+            return map;
+        }*/
     },
     methods : {
         init: function(){
@@ -24,10 +35,16 @@ const header = new Vue({
             let map = new Map();
             let cookieList = document.cookie.split(';');
             for(let i in cookieList){
-                let ck = cookieList[i].split('=');
-                map.set(ck[0].trim(),ck[1].trim());
+                if(cookieList[i].trim() !== ''){
+                    let ck = cookieList[i].split('=');
+                    map.set(ck[0].trim(),ck[1].trim());
+                }
+
             }
             _this.cookies = map
+        },
+        logout: function(){
+            window.location.href = 'login.html';
         },
         getShoppingCart: function (uid) {
             let _this = this;

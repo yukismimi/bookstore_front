@@ -41,12 +41,17 @@ let app = new Vue({
             return this.books[index].bookName.length <= 11 ? this.books[index].bookName : this.books[index].bookName.substring(0,11) + '...';
         },
         getBookClass: function () {
-            console.log("getBookClass");
             let _this = this;
             this.$http.get(this.serverUrl + '/bookClass')
                 .then((response)=>{
                     _this.classes = response.body;
                 });
+        },
+        commodity: function (subClass) {
+            let exp = new Date();
+            exp.setTime(exp.getTime() + 15 * 1000);
+            document.cookie = 'subClass='+ subClass +';  expires='+ exp.toUTCString() +';';
+            window.location.href = 'commodity.html';
         }
     }
 });

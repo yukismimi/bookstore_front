@@ -3,26 +3,41 @@ let app = new Vue({
     data: {
         message: 'Hello Vue!',
         serverUrl: 'http://localhost:8080',
-        books: [],
+        allBooks: [],
         pages: [],
-        classes: []
+        classes: [],
+        filterClass: 99
     },
     mounted: function () {
+        this.init();
         this.getBookList();
         this.getBookClass();
     },
     computed:{
         bookCount: function () {
             return this.books.length;
+        },
+        books: function () {
+            if(this.filterClass !== 99)
+                return this.allBooks.filter(book => book.bookClass === this.filterClass);
+            else
+                return this.allBooks;
         }
     },
     methods : {
+        init: function(){
+            header.cookies2Map();
+            if(header.cookies.get('subClass') != null){
+                this.filterClass = parseInt(header.cookies.get('subClass'));
+                document.cookie = 'subClass=;  expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+            }
+        },
         getBookList : function () {
             let _this = this;
 
             this.$http.get(this.serverUrl + '/bookList')
                 .then((response)=>{
-                    _this.books = response.body;
+                    _this.allBooks = response.body;
                     layui.use(['mm','laypage','jquery'],function(){
                         var laypage = layui.laypage;
                         let _this = this;
@@ -57,8 +72,6 @@ let app = new Vue({
             this.pages = this.books.slice(start,end)
         },
         bookName: function (index) {
-            console.log(index);
-            console.log(this.pages[index]);
             return this.pages[index].bookName.length <= 20 ? this.pages[index].bookName : this.pages[index].bookName.substring(0,15) + '...';
         },
         sortByPrice: function (event) {
@@ -101,6 +114,35 @@ let app = new Vue({
                 .then((response)=>{
                     _this.classes = response.body;
                 });
+        },
+        filter: function (clazz) {
+            this.filterClass = clazz;
+            layui.use(['mm','laypage','jquery'],function(){
+                var laypage = layui.laypage;
+                let _this = this;
+                laypage.render({
+                    elem: 'demo0',
+                    count: app.books.length,
+                    limit: 9,
+                    jump: function (obj,first) {
+                        app.getCurrPageBooks(obj.curr)
+                    }
+                });
+
+                $('.sort a').on('click',function(){
+                    $(this).addClass('active').siblings().removeClass('active');
+                });
+                $('.list-box dt').on('click',function(){
+                    if($(this).attr('off')){
+                        $(this).removeClass('active').siblings('dd').show()
+                        $(this).attr('off','')
+                    }else{
+                        $(this).addClass('active').siblings('dd').hide()
+                        $(this).attr('off',true)
+                    }
+                })
+
+            });
         }
     }
 });

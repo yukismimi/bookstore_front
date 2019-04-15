@@ -18,8 +18,7 @@
       <a href="#">首页</a>
     </p>
     <div class="sn-quick-menu">
-      <div v-if="cookies.has('username')" class="login">{{cookies.get("username")}}</div>
-      <div v-else class="login"><a href="login.html">登录</a></div>
+      <div class="login"><a href="login.html">登录</a></div>
     </div>
   </div>
 </div>
@@ -169,6 +168,5 @@
   <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
   <script src="../res/static/js/vue/common.js"></script>
   <script src="../res/static/js/vue/login.js"></script>
-  <script src="../res/static/js/vue/header.js"></script>
 </body>
 </html>

@@ -12,19 +12,20 @@
 <body>
 
 <div class="site-nav-bg" id="nav">
-  <div class="site-nav w1200">
-    <p class="sn-back-home">
-      <i class="layui-icon layui-icon-home"></i>
-      <a href="#">首页</a>
-    </p>
-    <div class="sn-quick-menu">
-      <div v-if="cookies.has('username')" class="login"><a href="userInfo.html">{{cookies.get("username")}}</a></div>
-      <div v-else class="login"><a href="login.html">登录</a></div>
-      <div v-if="cookies.has('username')" class="login"><a href="transaction.html">我的订单</a></div>
-      <div v-if="cookies.has('username')" class="sp-cart"><a href="shopcart.html">购物车</a><span>{{countInShoppingCart}}</span></div>
+    <div class="site-nav w1200">
+      <p class="sn-back-home">
+        <i class="layui-icon layui-icon-home"></i>
+        <a href="#">首页</a>
+      </p>
+      <div class="sn-quick-menu">
+        <div v-if="cookies.has('username')" class="login"><a href="userInfo.html">{{cookies.get("username")}}</a></div>
+        <div v-else class="login"><a href="login.html">登录</a></div>
+        <div v-if="cookies.has('username')" class="login"><a href="#" @click="logout">注销</a></div>
+        <div v-if="cookies.has('username')" class="login"><a href="transaction.html">我的订单</a></div>
+        <div v-if="cookies.has('username')" class="sp-cart"><a href="shopcart.html">购物车</a><span>{{countInShoppingCart}}</span></div>
+      </div>
     </div>
   </div>
-</div>
 
 
 
@@ -79,7 +80,7 @@
           <div class="itemInfo">
             <div class="title">
               <h4>{{details.bookName}}</h4>
-              <span><i class="layui-icon layui-icon-rate-solid"></i>收藏</span>
+              <span><i class="layui-icon layui-icon-rate"></i>收藏</span>
             </div>
             <div class="summary">
               <p class="reference"><span>参考价</span> <del>￥280.00</del></p>
@@ -88,7 +89,14 @@
             </div>
             <div class="choose-attrs">
               <div class="color layui-clear"><span class="title">属&nbsp;&nbsp;&nbsp;&nbsp;性</span> <div class="color-cont"> <span class="btn active">标准</span></div></div>
-              <div class="number layui-clear"><span class="title">数&nbsp;&nbsp;&nbsp;&nbsp;量</span><div class="number-cont"><span class="cut btn">-</span><input id="amount" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" maxlength="4" type="" name="" value="1"><span class="add btn">+</span></div></div>
+              <div class="number layui-clear">
+                <span class="title">数&nbsp;&nbsp;&nbsp;&nbsp;量</span>
+                <div class="number-cont">
+                  <span class="cut btn" @click="minus">-</span>
+                  <input v-model="amount" id="amount">
+                  <span class="add btn" @click="add">+</span>
+                </div>
+              </div>
             </div>
             <div class="choose-btns">
               <button class="layui-btn layui-btn-primary purchase-btn" @click="pay">立刻购买</button>

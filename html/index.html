@@ -20,6 +20,7 @@
       <div class="sn-quick-menu">
         <div v-if="cookies.has('username')" class="login"><a href="userInfo.html">{{cookies.get("username")}}</a></div>
         <div v-else class="login"><a href="login.html">登录</a></div>
+        <div v-if="cookies.has('username')" class="login"><a href="#" @click="logout">注销</a></div>
         <div v-if="cookies.has('username')" class="login"><a href="transaction.html">我的订单</a></div>
         <div v-if="cookies.has('username')" class="sp-cart"><a href="shopcart.html">购物车</a><span>{{countInShoppingCart}}</span></div>
       </div>
@@ -74,7 +75,7 @@
               <li v-for="(clazz,index) in classes" class="nav-item" :class="{nobor: index === lastIndexOfClasses}">
                 <div class="title">{{clazz.className}}</div>
                 <p>
-                  <a v-for="subClazz in clazz.clzList" href="#">{{subClazz.subClassName}}</a>
+                    <a href="javascript:;" v-for="subClazz in clazz.clzList" @click="commodity(subClazz.subClass)">{{subClazz.subClassName}}</a>
                 </p>
                 <i class="layui-icon layui-icon-right"></i>
               </li>
@@ -107,7 +108,7 @@
               <div carousel-item>
                 <div class="item-box">
                   <div v-for="(book,index) in books" class="item">
-                    <a href="javascript:;"><img src="../res/static/img/rohan-kotowaru-mdrohan-kotowaru-190.png"></a>
+                    <a :href="'details.html?id='+book.id"><img src="../res/static/img/rohan-kotowaru.png"></a>
                     <div class="title">{{bookName(index)}}</div>
                     <div class="price">
                       <span>￥{{book.price}}</span>
@@ -117,7 +118,7 @@
                 </div>
                 <div class="item-box">
                   <div v-for="(book,index) in books" class="item">
-                    <a href="javascript:;"><img src="../res/static/img/rohan-kotowaru-mdrohan-kotowaru-190.png"></a>
+                    <a :href="'details.html?id='+book.id"><img src="../res/static/img/rohan-kotowaru.png"></a>
                     <div class="title">{{bookName(index)}}</div>
                     <div class="price">
                       <span>￥{{book.price}}</span>
@@ -400,7 +401,7 @@ layui.config({
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
   <script src="../res/static/js/vue/common.js"></script>
-  <script src="../res/static/js/vue/index.js"></script>
   <script src="../res/static/js/vue/header.js"></script>
+  <script src="../res/static/js/vue/index.js"></script>
 </body>
 </html>

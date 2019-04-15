@@ -10,7 +10,7 @@ let app = new Vue({
         isLogin: true
     },
     mounted: function () {
-
+        this.reset();
     },
     methods : {
         toggle: function () {
@@ -26,11 +26,15 @@ let app = new Vue({
                     document.cookie = "username=" + response.body.data.userName.toString();
                     document.cookie = "uid=" + response.body.data.id.toString();
                     document.cookie = "token=" + response.headers.get("Token").toString();
-                    if (window.history.length > 1) {
-                        window.history.back(-1);
-                    } else {
-                        window.location.href = "index.html";
-                    }
+                    layer.msg("登录成功,2秒后跳转");
+                    setTimeout(function () {
+                        // if (window.history.length > 1) {
+                        //     window.history.back(-1);
+                        // } else {
+                        //     window.location.href = "index.html";
+                        // }
+                        window.location.href = 'index.html';
+                    },2*1000);
                 } else
                     alert(response.data.code)
             });
@@ -55,6 +59,15 @@ let app = new Vue({
                 } else
                     layer.msg("注册失败");
             });
+        },
+        reset: function () {
+            let cookieList = document.cookie.split(';');
+            for(let i in cookieList){
+                if(cookieList[i].trim() !== ''){
+                    let ck = cookieList[i].split('=');
+                    document.cookie = ck[0].toString() + '=;  expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+                }
+            }
         }
     }
 

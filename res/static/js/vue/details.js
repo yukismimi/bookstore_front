@@ -3,7 +3,8 @@ let app = new Vue({
     data: {
         serverUrl: 'http://localhost:8080',
         bookId: window.location.href.toString().split("=")[1],
-        details: {}
+        details: {},
+        amount: 1
     },
     mounted: function () {
         this.getDetailsById(this.bookId)
@@ -29,14 +30,21 @@ let app = new Vue({
                     header.getShoppingCart(uid);
             });
         },
+        add: function(){
+            if(this.amount < this.details.stock)
+                this.amount++;
+        },
+        minus: function(){
+            if(this.amount > 1)
+                this.amount--;
+        },
         pay: function (event) {
             let transactions = [];
             let uid = header.cookies.get("uid");
-            let amount = $("#amount").val();
             let transaction = {};
             transaction.bookId = this.details.id;
             transaction.userId = uid;
-            transaction.amount = amount;
+            transaction.amount = this.amount;
             transaction.bookName = this.details.bookName;
             transaction.unitPrice = this.details.price;
             transactions.push(transaction);
