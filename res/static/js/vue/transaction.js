@@ -6,7 +6,7 @@ let app = new Vue({
         checkbox: [],
     },
     mounted: function () {
-        this.getTransactions(this.cookies.get("uid"));
+        this.getTransactions(this.cookies.get("id"));
     },
     computed:{
         selected: function () {
@@ -20,10 +20,10 @@ let app = new Vue({
         }
     },
     methods : {
-        getTransactions: function (uid) {
+        getTransactions: function (id) {
             let _this = this;
 
-            this.$http.get(this.serverUrl + '/TransactionList?userId=' + uid)
+            this.$http.get(this.serverUrl + '/TransactionList?userId=' + id)
                 .then((response)=>{
                     _this.transactions = response.body;
                 });

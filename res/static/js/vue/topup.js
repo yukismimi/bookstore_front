@@ -3,16 +3,15 @@ let app = new Vue({
     data: {
         serverUrl: 'http://localhost:8080',
         cookies: new Map(),
-        beforePassword:'',
-        afterPassword:'',
-        rePassword:''
+        amount: ''
     },
     mounted: function () {
         this.cookies2Map();
     },
     computed:{
-        isSame:function () {
-            return this.afterPassword === this.rePassword;
+        isNumeric:function () {
+            let reg = /^[1-9]\d*$/;
+            return reg.test(this.amount);
         }
     },
     methods : {
@@ -26,27 +25,25 @@ let app = new Vue({
             }
             _this.cookies = map;
         },
-        update: function () {
-            if(!this.isSame)
+        topup: function () {
+            if(!this.isNumeric) {
+                layer.msg("充值金额必须是正整数");
                 return false;
+            }
             let id = this.cookies.get("id");
             let _this = this;
 
-            this.$http.put(this.serverUrl + '/password',{
+            this.$http.put(this.serverUrl + '/balance',{
                     "id": id,
-                    "beforePassword":_this.beforePassword,
-                    "afterPassword":_this.afterPassword
+                    "rechargeAmount":_this.amount,
                 },
                 {"emulateJSON":true}
             )
                 .then((response)=>{
-                   if(response.body.code === 1) {
-                       layer.msg("密码更改成功,2秒后返回");
-                       setTimeout(function () {
-                           window.location.href = 'index.html';
-                       }, 2 * 1000);
-                   }else
-                       layer.msg("密码修改失败");
+                    layer.msg("充值成功，2秒后跳转")
+                    setTimeout(function () {
+                        window.location.href = 'index.html';
+                    },2*1000);
                 });
         },
         back: function () {

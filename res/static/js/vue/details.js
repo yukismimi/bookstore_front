@@ -19,15 +19,15 @@ let app = new Vue({
         },
         addToShoppingCart: function(){
             let amount = $("#amount").val();
-            let uid = header.cookies.get("uid");
+            let id = header.cookies.get("id");
 
             this.$http.post(this.serverUrl+'/shoppingCart',
                 JSON.stringify({
-                    "userId": uid,
+                    "userId": id,
                     "bookId": this.bookId,
                     "amount": amount
                 })).then((response)=> {
-                    header.getShoppingCart(uid);
+                    header.getShoppingCart(id);
             });
         },
         add: function(){
@@ -40,10 +40,10 @@ let app = new Vue({
         },
         pay: function (event) {
             let transactions = [];
-            let uid = header.cookies.get("uid");
+            let id = header.cookies.get("id");
             let transaction = {};
             transaction.bookId = this.details.id;
-            transaction.userId = uid;
+            transaction.userId = id;
             transaction.amount = this.amount;
             transaction.bookName = this.details.bookName;
             transaction.unitPrice = this.details.price;
@@ -53,7 +53,7 @@ let app = new Vue({
                 JSON.stringify(transactions))
                 .then((response)=>{
                     if(response.body.code === 1){
-                        header.getShoppingCart(uid);
+                        header.getShoppingCart(id);
                         layer.msg("购买成功，2秒后跳转至订单页");
                         setTimeout(function () {
                             window.location.href = "transaction.html";

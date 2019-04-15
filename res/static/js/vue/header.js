@@ -8,7 +8,7 @@ const header = new Vue({
     mounted: function () {
         this.init();
         this.cookies2Map();
-        this.getShoppingCart(this.cookies.get("uid"));
+        this.getShoppingCart(this.cookies.get("id"));
     },
     computed:{
         countInShoppingCart: function () {
@@ -46,10 +46,10 @@ const header = new Vue({
         logout: function(){
             window.location.href = 'login.html';
         },
-        getShoppingCart: function (uid) {
+        getShoppingCart: function (id) {
             let _this = this;
 
-            this.$http.get(this.serverUrl + '/shoppingCart?userId='+uid)
+            this.$http.get(this.serverUrl + '/shoppingCart?userId='+id)
                 .then((response)=>{
                     _this.shoppingCart = response.body;
                 });

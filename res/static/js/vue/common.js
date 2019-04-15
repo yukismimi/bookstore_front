@@ -5,8 +5,8 @@ Vue.http.interceptors.push((request, next) => {
     if( cookies.get('token') != null && cookies.get('token').trim() !== ''){
         request.headers.set('token',cookies.get('token'));
     }
-    if( cookies.get('uid') != null && cookies.get('uid').trim() !== ''){
-        request.headers.set('uid',cookies.get('uid'));
+    if( cookies.get('id') != null && cookies.get('id').trim() !== ''){
+        request.headers.set('id',cookies.get('id'));
     }
 
     next((response) => {
@@ -35,19 +35,4 @@ cookies2Map = function () {
         }
     }
     return map;
-};
-
-const refreshPage = function () {
-    layui.use(['mm','laypage','jquery'],function(){
-        var laypage = layui.laypage;
-        let _this = this;
-        laypage.render({
-            elem: 'demo0',
-            count: app.books.length,
-            limit: 9,
-            jump: function (obj,first) {
-                app.getCurrPageBooks(obj.curr);
-            }
-        });
-    });
 };

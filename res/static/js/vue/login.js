@@ -24,7 +24,7 @@ let app = new Vue({
                 })).then((response)=> {
                 if (response.body.code === 1) {
                     document.cookie = "username=" + response.body.data.userName.toString();
-                    document.cookie = "uid=" + response.body.data.id.toString();
+                    document.cookie = "id=" + response.body.data.id.toString();
                     document.cookie = "token=" + response.headers.get("Token").toString();
                     layer.msg("登录成功,2秒后跳转");
                     setTimeout(function () {

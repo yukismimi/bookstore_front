@@ -3,11 +3,13 @@ let app = new Vue({
     data: {
         serverUrl: 'http://localhost:8080',
         cookies: new Map(),
-        userInfo:{}
+        userInfo:{},
+        balance: ''
     },
     mounted: function () {
         this.cookies2Map();
         this.getUserInfo();
+        this.queryBalance();
     },
     methods : {
         cookies2Map: function () {
@@ -21,19 +23,27 @@ let app = new Vue({
             _this.cookies = map;
         },
         getUserInfo: function () {
-            let uid = this.cookies.get("uid");
+            let id = this.cookies.get("id");
             let _this = this;
-            this.$http.get(this.serverUrl + '/user?id=' + uid)
+            this.$http.get(this.serverUrl + '/user?id=' + id)
                 .then((response)=>{
                     _this.userInfo = response.body;
                 });
         },
+        queryBalance: function(){
+            let _this = this;
+            let id = this.cookies.get("id");
+            this.$http.get(this.serverUrl + '/balance?id=' + id)
+                .then((response)=>{
+                    _this.balance = response.body.balance;
+                });
+        },
         update: function () {
-            let uid = this.cookies.get("uid");
+            let id = this.cookies.get("id");
             let _this = this;
             this.$http.put(this.serverUrl + '/user',
                 JSON.stringify({
-                    "id": uid,
+                    "id": id,
                     "userName": this.userInfo.userName,
                     "age": this.userInfo.age,
                     "gender": this.userInfo.gender,
@@ -43,7 +53,7 @@ let app = new Vue({
                 .then((response)=>{
                     layer.msg("更新成功,2秒后跳转");
                     setTimeout(function () {
-                        window.history.back(-1);
+                        window.location.href = 'index.html';
                     },2*1000);
                 });
         },

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modify Password</title>
+    <meta name="description" content="">
+    <meta name="author" content="templatemo">
+    <!--
+    Visual Admin Template
+    http://www.templatemo.com/preview/templatemo_455_visual_admin
+    -->
+    <script type="text/javascript" src="../res/layui/layui.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700' rel='stylesheet' type='text/css'>
+    <link href="input/css/font-awesome.min.css" rel="stylesheet">
+    <link href="input/css/bootstrap.min.css" rel="stylesheet">
+    <link href="input/css/templatemo-style.css" rel="stylesheet">
+
+
+</head>
+<body class="light-gray-bg">
+<!-- Main content -->
+<div class="templatemo-content col-1 light-gray-bg">
+
+    <div class="templatemo-content-container" id="app">
+        <div class="templatemo-content-widget white-bg">
+            <h2 class="margin-bottom-10 text-center">Top up</h2>
+            <p class="text-center">Please enter the amount of recharge.</p>
+            <form action="" class="templatemo-login-form" method="post" enctype="multipart/form-data">
+                <div class="row form-group">
+                    <div class="col-lg-2 col-md-2 col-md-offset-5 col-lg-offset-5 form-group">
+                        <label for="amount">amount of recharge.</label>
+                        <input v-model="amount" type="text" class="form-control" id="amount">
+                    </div>
+                </div>
+
+                <div class="form-group text-center">
+                    <button type="button" class="templatemo-blue-button" @click="topup">Confirm</button>
+                    <button type="button" class="templatemo-white-button" @click="back">&nbsp;Back&nbsp;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- JS -->
+<script type="text/javascript">
+    layui.config({
+        base: '../res/static/js/util' //你存放新模块的目录，注意，不是layui的模块目录
+    }).use(['jquery','form'],function(){
+        var $ = layui.$,form = layui.form;
+    })
+</script>
+<script type="text/javascript" src="input/js/jquery-3.3.1.min.js"></script>        <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+<script src="../res/static/js/vue/common.js"></script>
+<script src="../res/static/js/vue/topup.js"></script>
+<script type="text/javascript" src="input/js/bootstrap-filestyle.min.js"></script>  <!-- http://markusslima.github.io/bootstrap-filestyle/ -->
+<script type="text/javascript" src="input/js/templatemo-script.js"></script>        <!-- Templatemo Script -->
+</body>
+</html>

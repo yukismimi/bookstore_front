@@ -37,9 +37,9 @@ let app = new Vue({
             }
             _this.cookies = map
         },
-        getShoppingCart: function (uid) {
+        getShoppingCart: function (id) {
             let _this = this;
-            this.$http.get(this.serverUrl + '/shoppingCart?userId=' + uid)
+            this.$http.get(this.serverUrl + '/shoppingCart?userId=' + id)
                 .then((response)=>{
                     _this.shoppingCart = response.body;
                 });
@@ -65,7 +65,7 @@ let app = new Vue({
                 });
         },
         remove: function (index) {
-            let uid = header.cookies.get("uid");
+            let id = header.cookies.get("id");
 
             this.$http.delete(this.serverUrl + '/shoppingCart',{
                 "body":{
@@ -76,7 +76,7 @@ let app = new Vue({
             })
                 .then((response)=>{
                     layer.msg('删除成功');
-                    header.getShoppingCart(uid);
+                    header.getShoppingCart(id);
                 });
 
             let bookId = this.shoppingCart[index].bookId;
@@ -88,7 +88,7 @@ let app = new Vue({
             let _this = this;
             this.shoppingCart.filter(i => this.checkbox.indexOf(i.bookId) != -1)
                 .forEach(function (obj) {
-                    let uid = header.cookies.get("uid");
+                    let id = header.cookies.get("id");
                     _this.$http.delete(app.serverUrl + '/shoppingCart',{
                        "body":{
                            "userId": obj.userId,
@@ -98,7 +98,7 @@ let app = new Vue({
                     })
                         .then((response)=>{
                             layer.msg('删除成功');
-                            header.getShoppingCart(uid);
+                            header.getShoppingCart(id);
                         });
                 });
 
@@ -127,7 +127,7 @@ let app = new Vue({
             }
 
             let transactions = [];
-            let uid = header.cookies.get("uid");
+            let id = header.cookies.get("id");
 
             for(let i in this.checkbox){
                 let transaction = {};
@@ -145,7 +145,7 @@ let app = new Vue({
                 JSON.stringify(transactions))
                 .then((response)=>{
                     if(response.body.code === 1){
-                        header.getShoppingCart(uid);
+                        header.getShoppingCart(id);
                         layer.msg("购买成功，2秒后跳转至订单页");
                         setTimeout(function () {
                             window.location.href = "transaction.html";
