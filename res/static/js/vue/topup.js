@@ -3,10 +3,12 @@ let app = new Vue({
     data: {
         serverUrl: 'http://localhost:8080',
         cookies: new Map(),
-        amount: ''
+        amount: '',
+        history: []
     },
     mounted: function () {
         this.cookies2Map();
+        this.getHistory();
     },
     computed:{
         isNumeric:function () {
@@ -24,6 +26,20 @@ let app = new Vue({
                 map.set(ck[0].trim(),ck[1].trim())
             }
             _this.cookies = map;
+        },
+        getHistory: function(){
+            let _this = this;
+            let id = this.cookies.get('id');
+            this.$http.get(this.serverUrl + '/rechargeRecord?userId=' + id)
+                .then((response)=>{
+                    _this.history = response.body;
+                });
+        },
+        rechargeTime: function (index) {
+            console.log(111);
+            let rechargeTime = this.history[index].rechargeTime;
+            return rechargeTime.year + '-' + rechargeTime.monthValue + '-' +rechargeTime.dayOfMonth + ' ' + rechargeTime.hour + ':'
+                + rechargeTime.minute + ':' + rechargeTime.second;
         },
         topup: function () {
             if(!this.isNumeric) {

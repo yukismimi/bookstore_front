@@ -3,7 +3,7 @@ let app = new Vue({
     data: {
         serverUrl: 'http://localhost:8080',
         cookies: new Map(),
-        userInfo:{},
+            userInfo:{},
         balance: ''
     },
     mounted: function () {

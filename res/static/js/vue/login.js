@@ -28,15 +28,10 @@ let app = new Vue({
                     document.cookie = "token=" + response.headers.get("Token").toString();
                     layer.msg("登录成功,2秒后跳转");
                     setTimeout(function () {
-                        // if (window.history.length > 1) {
-                        //     window.history.back(-1);
-                        // } else {
-                        //     window.location.href = "index.html";
-                        // }
                         window.location.href = 'index.html';
                     },2*1000);
                 } else
-                    alert(response.data.code)
+                    layer.msg("登陆失败,请重新尝试");
             });
             return false;
         },
@@ -45,7 +40,6 @@ let app = new Vue({
                 layer.msg("两次密码输入不一致，请重新输入");
                 return false;
             }
-
             this.$http.post(this.serverUrl + '/user',
                 JSON.stringify({
                     "userName": this.usernameRegist,
@@ -70,5 +64,4 @@ let app = new Vue({
             }
         }
     }
-
 });

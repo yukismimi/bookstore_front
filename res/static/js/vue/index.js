@@ -38,7 +38,8 @@ let app = new Vue({
                 });
         },
         bookName: function (index) {
-            return this.books[index].bookName.length <= 11 ? this.books[index].bookName : this.books[index].bookName.substring(0,11) + '...';
+            return this.books[index].bookName.length <= 11 ?
+            this.books[index].bookName : this.books[index].bookName.substring(0,11) + '...';
         },
         getBookClass: function () {
             let _this = this;
