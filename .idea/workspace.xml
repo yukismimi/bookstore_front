@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7ba13434-f246-4dbd-92db-aa962cacace0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/topup.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/topup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/static/js/bookstore.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/static/js/vue/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/res/static/js/vue/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/static/js/vue/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/res/static/js/vue/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/static/js/vue/topup.js" beforeDir="false" afterPath="$PROJECT_DIR$/res/static/js/vue/topup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/static/js/vue/userInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/res/static/js/vue/userInfo.js" afterDir="false" />
-    </list>
+    <list default="true" id="7ba13434-f246-4dbd-92db-aa962cacace0" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -80,9 +71,7 @@
         <entry file="file://$PROJECT_DIR$/res/static/js/vue/vue.min.js">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+              <caret column="3" lean-forward="true" selection-start-column="3" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -312,7 +301,7 @@
       <workItem from="1554945441992" duration="4232000" />
       <workItem from="1554961028962" duration="24177000" />
       <workItem from="1555128789103" duration="22880000" />
-      <workItem from="1555321994260" duration="15871000" />
+      <workItem from="1555321994260" duration="16526000" />
     </task>
     <task id="LOCAL-00001" summary="2019.4.7 初稿前">
       <created>1554628359348</created>
@@ -349,11 +338,18 @@
       <option name="project" value="LOCAL" />
       <updated>1555323422109</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="2019.4.17 complete">
+      <created>1555464520604</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1555464520604</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="130006000" />
+    <option name="totallyTimeSpent" value="130661000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
@@ -398,7 +394,8 @@
     <MESSAGE value="2019.4.11 ajax修改为vue.http" />
     <MESSAGE value="2019.4.13" />
     <MESSAGE value="2019.4.15" />
-    <option name="LAST_COMMIT_MESSAGE" value="2019.4.15" />
+    <MESSAGE value="2019.4.17 complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="2019.4.17 complete" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/res/static/img/banner1.jpg">
@@ -635,9 +632,7 @@
     <entry file="file://$PROJECT_DIR$/res/static/js/vue/vue.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+          <caret column="3" lean-forward="true" selection-start-column="3" selection-end-column="3" />
         </state>
       </provider>
     </entry>
